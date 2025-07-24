@@ -1,0 +1,25 @@
+<div class="view-draws">
+  <h2>All Lucky Draws</h2>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Prize</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let draw of draws; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ draw.prizeName }}</td>
+        <td>{{ draw.drawDate }}</td>
+        <td>
+          <button class="btn btn-sm btn-info" (click)="viewParticipants(draw)">👥 Participants</button>
+          <button class="btn btn-sm btn-success ms-2" (click)="runDraw(draw)">🎯 Run Draw</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

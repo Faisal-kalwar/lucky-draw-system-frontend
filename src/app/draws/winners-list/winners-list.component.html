@@ -1,0 +1,28 @@
+<div class="card p-4">
+  <h3>🏆 Winners for Draw #{{ drawId }}</h3>
+
+  <button class="btn btn-success mb-3" (click)="pickWinners()">
+  🎯 Pick Winners
+</button>
+<form (ngSubmit)="addParticipationByEmail()" class="mb-3">
+  <div class="form-group">
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="manualEmail" name="email" class="form-control" required />
+  </div>
+  <button class="btn btn-primary mt-2" type="submit">
+    ➕ Add Participant by Email
+  </button>
+</form>
+
+
+  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
+
+  <ul *ngIf="winners.length > 0">
+    <li *ngFor="let winner of winners">
+      🥇 {{ winner.user?.name || winner.user?.email }}
+    </li>
+  </ul>
+
+  <p *ngIf="!loading && winners.length === 0">No winners yet.</p>
+  <p *ngIf="loading">Loading...</p>
+</div>

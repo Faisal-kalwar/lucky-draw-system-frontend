@@ -1,0 +1,17 @@
+<div class="draw-list-wrapper">
+  <h2>Available Lucky Draws</h2>
+
+  <div class="draw-card" *ngFor="let draw of draws">
+    <h3>{{ draw.prizeName }}</h3>
+    <p><strong>Date:</strong> {{ draw.drawDate | date }}</p>
+    <p><strong>Status:</strong> {{ draw.status }}</p>
+
+    <button 
+      class="btn btn-primary"
+      [disabled]="draw.joined || draw.status !== 'Open'"
+      (click)="joinDraw(draw.id)"
+    >
+      {{ draw.joined ? 'Joined' : 'Join' }}
+    </button>
+  </div>
+</div>

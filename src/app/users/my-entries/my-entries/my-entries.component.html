@@ -1,0 +1,33 @@
+<div class="my-entries card p-4 shadow">
+  <h2>📋 My Entries</h2>
+
+  <table class="table mt-3" *ngIf="entries.length; else noEntries">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Prize</th>
+        <th>Draw Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of entries; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ entry.prizeName }}</td>
+        <td>{{ entry.drawDate }}</td>
+        <td>
+          <span class="badge" [ngClass]="{
+            'bg-success': entry.status === 'joined',
+            'bg-warning': entry.status === 'pending'
+          }">
+            {{ entry.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noEntries>
+    <p class="text-muted mt-3">You haven’t joined any draws yet.</p>
+  </ng-template>
+</div>

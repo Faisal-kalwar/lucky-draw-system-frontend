@@ -1,0 +1,40 @@
+<div class="edit-draw">
+  <h2>Edit Draw</h2>
+
+  <form [formGroup]="drawForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Prize Name</label>
+      <input type="text" class="form-control" formControlName="prizeName" />
+    </div>
+
+    <div class="form-group mt-3">
+      <label>Draw Date</label>
+      <input type="date" class="form-control" formControlName="drawDate" />
+    </div>
+
+    <div class="form-group mt-3">
+      <label>Description</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-group mt-3">
+      <label>Max Participants</label>
+      <input type="number" class="form-control" formControlName="maxParticipants" />
+    </div>
+
+    <div class="form-group mt-3">
+      <label>Status</label>
+      <select class="form-control" formControlName="status">
+        <option value="upcoming">Upcoming</option>
+        <option value="ongoing">Ongoing</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+
+    <button class="btn btn-success mt-4" type="submit" [disabled]="drawForm.invalid || loading">
+      💾 Update Draw
+    </button>
+  </form>
+
+  <p *ngIf="loading">⏳ Loading draw data...</p>
+</div>

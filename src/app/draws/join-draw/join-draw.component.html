@@ -1,0 +1,71 @@
+<div class="join-draw card p-4 shadow">
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading draw details...</p>
+  </div>
+
+  <!-- Draw details -->
+  <div *ngIf="!isLoading && draw">
+    <h3>🎯 Join Draw: {{ draw.prizeName }}</h3>
+
+    <div class="draw-details mt-3">
+      <p><strong>Description:</strong> {{ draw.description || 'No description available' }}</p>
+      <p><strong>Draw Date:</strong> {{ formatDate(draw.drawDate) }}</p>
+      <p *ngIf="draw.maxParticipants"><strong>Max Participants:</strong> {{ draw.currentParticipants || 0 }}/{{ draw.maxParticipants }}</p>
+      <p *ngIf="draw.entryFee"><strong>Entry Fee:</strong> ${{ draw.entryFee }}</p>
+    </div>
+
+    <!-- Join button with conditions -->
+    <div class="mt-4">
+      <button 
+        class="btn btn-primary me-2" 
+        (click)="join()"
+        [disabled]="isLoading || isUserAlreadyJoined() || isDrawClosed()"
+        *ngIf="!isUserAlreadyJoined()">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status"></span>
+        {{ isLoading ? 'Joining...' : 'Join Now' }}
+      </button>
+
+      <span *ngIf="isUserAlreadyJoined()" class="badge bg-success fs-6">
+        ✅ Already Joined
+      </span>
+
+      <span *ngIf="isDrawClosed()" class="badge bg-secondary fs-6">
+        🔒 Draw Closed
+      </span>
+    </div>
+
+    <!-- Participants list (optional) -->
+    <div *ngIf="draw.participants && draw.participants.length > 0" class="mt-4">
+      <h5>Participants ({{ draw.participants.length }})</h5>
+      <div class="participants-list">
+        <span 
+          *ngFor="let participant of draw.participants" 
+          class="badge bg-light text-dark me-1 mb-1">
+          {{ participant.user.name }}
+          <span *ngIf="participant.isWinner" class="text-warning">👑</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="!isLoading && !draw && message" class="text-center">
+    <h4>⚠️ Unable to Load Draw</h4>
+    <p>{{ message }}</p>
+    <button class="btn btn-outline-primary" (click)="loadDraw()">
+      Try Again
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="message" class="alert mt-3" 
+       [class.alert-success]="message.includes('✅')"
+       [class.alert-danger]="message.includes('❌')"
+       [class.alert-info]="!message.includes('✅') && !message.includes('❌')">
+    {{ message }}
+  </div>
+</div>

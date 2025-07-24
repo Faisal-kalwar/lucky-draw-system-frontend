@@ -1,0 +1,33 @@
+<div class="draws-container">
+  <h2>All Draws</h2>
+
+  <a class="btn btn-primary mb-3" routerLink="admin/create-draw">+ Create New Draw</a>
+
+  <table class="table table-striped" *ngIf="!loading && draws.length > 0">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>No. of Winners</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+     <tr *ngFor="let draw of draws">
+  <td>{{ draw.prizeName }}</td>
+  <td>{{ draw.drawDate | date:'mediumDate' }}</td>
+  <td>{{ draw.maxParticipants || 'N/A' }}</td>
+  <td>{{ draw.status }}</td>
+  <td>
+    <a class="btn btn-sm btn-outline-secondary me-2" [routerLink]="['/admin/draws/edit', draw.id]">Edit</a>
+    <button class="btn btn-sm btn-outline-danger" (click)="deleteDraw(draw.id)">Delete</button>
+  </td>
+</tr>
+
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && draws.length === 0">No draws available.</p>
+  <p *ngIf="loading">Loading draws...</p>
+</div>

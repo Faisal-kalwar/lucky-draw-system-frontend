@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.bg-gradient {
+  background: linear-gradient(135deg, #6f42c1, #00bcd4);
+}
+.home-wrapper section {
+  scroll-margin-top: 60px;
+}
