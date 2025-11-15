@@ -1,10 +1,24 @@
-<header class="header">
+<header class="header" *ngIf="!hideLayout">
   <nav>
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-    <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
-    <a routerLink="/register" routerLinkActive="active">Register</a>
-    <a routerLink="/draws" routerLinkActive="active">All Draws</a>
+
+    <ng-container *ngIf="isLoggedIn; else guestLinks">
+      <ng-container *ngIf="user?.role === 'admin'; else userLinks">
+        <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      </ng-container>
+
+      <ng-template #userLinks>
+        <a routerLink="/draws" routerLinkActive="active">All Draws</a>
+        <a routerLink="/my-entries" routerLinkActive="active">My Entries</a>
+      </ng-template>
+
+      <a (click)="logout()">Logout</a>
+    </ng-container>
+
+    <ng-template #guestLinks>
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+    </ng-template>
   </nav>
 </header>
 
@@ -12,6 +26,6 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer class="footer">
+<footer class="footer" *ngIf="!hideLayout">
   <p>&copy; 2025 Lucky Draw App</p>
 </footer>

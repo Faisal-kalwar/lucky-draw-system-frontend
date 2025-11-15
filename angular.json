@@ -64,7 +64,7 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -73,7 +73,12 @@
               "buildTarget": "lucky-draw-frontend:build:production"
             },
             "development": {
-              "buildTarget": "lucky-draw-frontend:build:development"
+              "buildTarget": "lucky-draw-frontend:build:development",
+              "hmr": false
+            },
+            "hmr": {
+              "buildTarget": "lucky-draw-frontend:build:development",
+              "hmr": true
             }
           },
           "defaultConfiguration": "development"

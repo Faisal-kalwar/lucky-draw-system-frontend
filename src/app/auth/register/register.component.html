@@ -1,455 +1,63 @@
-<div class="register-container">
-  <div class="register-card">
-    <div class="register-header">
-      <img src="https://cdn-icons-png.flaticon.com/512/912/912399.png" alt="LuckyWin Logo" class="register-logo">
-      <h2>Join LuckyWin!</h2>
-      <p class="subtitle">Create your account to start winning amazing prizes</p>
-    </div>
+<div class="page-container">
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Lucky Draw Lottery Registration</h1>
+  </header>
 
-    <form class="register-form">
+  <!-- Registration Card -->
+  <main class="form-container">
+    <h2>Register for the Lottery</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Name -->
       <div class="form-group">
-        <label for="name">Full Name</label>
-        <div class="input-with-icon">
-          <i class="fas fa-user"></i>
-          <input type="text" id="name" placeholder="John Doe">
-        </div>
+        <label for="name">Name:</label>
+        <input id="name" type="text" formControlName="name" />
       </div>
 
+      <!-- Email -->
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <div class="input-with-icon">
-          <i class="fas fa-envelope"></i>
-          <input type="email" id="email" placeholder="your@email.com">
-        </div>
+        <label for="email">Email:</label>
+        <input id="email" type="email" formControlName="email" />
       </div>
 
+      <!-- Phone -->
       <div class="form-group">
-        <label for="password">Password</label>
-        <div class="input-with-icon">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="password" placeholder="••••••••">
-          <button type="button" class="toggle-password">
-            <i class="far fa-eye"></i>
-          </button>
-        </div>
-        <div class="password-strength">
-          <div class="strength-meter">
-            <div class="strength-bar"></div>
-            <div class="strength-bar"></div>
-            <div class="strength-bar"></div>
-          </div>
-          <span class="strength-text">Password strength</span>
-        </div>
+        <label for="phone">Phone Number:</label>
+        <input id="phone" type="text" formControlName="phone" />
       </div>
 
+      <!-- Payment -->
       <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <div class="input-with-icon">
-          <i class="fas fa-lock"></i>
-          <input type="password" id="confirm-password" placeholder="••••••••">
-          <button type="button" class="toggle-password">
-            <i class="far fa-eye"></i>
-          </button>
-        </div>
+        <label for="paymentOption">Payment Method:</label>
+        <select id="paymentOption" formControlName="paymentOption">
+          <option value="" disabled>Select Payment Method</option>
+          <option value="bank">Bank Transfer</option>
+          <option value="easypaisa">Easypaisa</option>
+          <option value="jazzcash">JazzCash</option>
+        </select>
       </div>
 
-      <div class="form-terms">
-        <label class="terms-checkbox">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-        </label>
+      <!-- Amount -->
+      <div class="form-group">
+        <label for="amount">Amount to Play:</label>
+        <input id="amount" type="number" formControlName="amount" />
       </div>
 
-      <button type="submit" class="register-button">
-        Create Account
+      <!-- Button -->
+      <button type="submit" [disabled]="isLoading || registerForm.invalid">
+        {{ isLoading ? 'Processing...' : 'Register and Pay' }}
       </button>
 
-      <div class="divider">
-        <span>or</span>
-      </div>
-
-      <div class="social-register">
-        <button type="button" class="social-button google">
-          <i class="fab fa-google"></i>
-          Continue with Google
-        </button>
-        <button type="button" class="social-button apple">
-          <i class="fab fa-apple"></i>
-          Continue with Apple
-        </button>
+      <!-- API error -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
       </div>
     </form>
+  </main>
 
-    <div class="login-link">
-      Already have an account? <a href="#">Login here</a>
-    </div>
-  </div>
+  <!-- Footer -->
+  <footer class="page-footer">
+    © 2025 Lucky Draw Lottery. All rights reserved.
+  </footer>
 </div>
-
-<style>
-:root {
-  --primary: #6c5ce7;
-  --primary-dark: #5649c0;
-  --secondary: #ffbe76;
-  --dark: #2d3436;
-  --light: #f5f6fa;
-  --gray: #dfe6e9;
-  --danger: #d63031;
-  --success: #00b894;
-}
-
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f6fa 0%, #e8ebf0 100%);
-  padding: 20px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.register-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(108, 92, 231, 0.1);
-  padding: 40px;
-  width: 100%;
-  max-width: 450px;
-  transition: transform 0.3s ease;
-}
-
-.register-card:hover {
-  transform: translateY(-5px);
-}
-
-.register-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.register-logo {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 20px;
-}
-
-.register-header h2 {
-  color: var(--dark);
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  color: #636e72;
-  font-size: 16px;
-  margin-bottom: 0;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  color: var(--dark);
-  font-weight: 500;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-.input-with-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.input-with-icon i {
-  position: absolute;
-  left: 15px;
-  color: #b2bec3;
-  font-size: 18px;
-}
-
-.input-with-icon input {
-  width: 100%;
-  padding: 15px 15px 15px 45px;
-  border: 1px solid var(--gray);
-  border-radius: 10px;
-  font-size: 16px;
-  transition: all 0.3s;
-}
-
-.input-with-icon input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-  outline: none;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 15px;
-  background: none;
-  border: none;
-  color: #b2bec3;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.password-strength {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.strength-meter {
-  display: flex;
-  gap: 4px;
-  margin-right: 10px;
-}
-
-.strength-bar {
-  width: 30px;
-  height: 4px;
-  background-color: var(--gray);
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-
-.strength-text {
-  font-size: 12px;
-  color: #636e72;
-}
-
-.form-terms {
-  margin: 20px 0;
-}
-
-.terms-checkbox {
-  display: flex;
-  align-items: center;
-  color: #636e72;
-  font-size: 14px;
-  cursor: pointer;
-  line-height: 1.5;
-}
-
-.terms-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.terms-checkbox .checkmark {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border: 1px solid var(--gray);
-  border-radius: 4px;
-  margin-right: 8px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.terms-checkbox input:checked ~ .checkmark {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.terms-checkbox .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.terms-checkbox input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.terms-checkbox .checkmark:after {
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.terms-checkbox a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
-.terms-checkbox a:hover {
-  text-decoration: underline;
-}
-
-.register-button {
-  width: 100%;
-  padding: 15px;
-  background-color: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-bottom: 20px;
-}
-
-.register-button:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  color: #b2bec3;
-  font-size: 14px;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid var(--gray);
-}
-
-.divider::before {
-  margin-right: 10px;
-}
-
-.divider::after {
-  margin-left: 10px;
-}
-
-.social-register {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.social-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid var(--gray);
-  background: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.social-button i {
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-.social-button.google {
-  color: #db4437;
-}
-
-.social-button.google:hover {
-  background: #f5f5f5;
-}
-
-.social-button.apple {
-  color: var(--dark);
-}
-
-.social-button.apple:hover {
-  background: #f5f5f5;
-}
-
-.login-link {
-  text-align: center;
-  color: #636e72;
-  font-size: 14px;
-}
-
-.login-link a {
-  color: var(--primary);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 480px) {
-  .register-card {
-    padding: 30px 20px;
-  }
-  
-  .register-header h2 {
-    font-size: 24px;
-  }
-  
-  .terms-checkbox {
-    font-size: 13px;
-  }
-}
-
-/* Password strength indicator colors */
-.password-weak .strength-bar:nth-child(1) {
-  background-color: var(--danger);
-}
-
-.password-medium .strength-bar:nth-child(-n+2) {
-  background-color: var(--secondary);
-}
-
-.password-strong .strength-bar {
-  background-color: var(--success);
-}
-</style>
-
-<script>
-// Simple password strength indicator (you can enhance this further)
-document.getElementById('password').addEventListener('input', function(e) {
-  const password = e.target.value;
-  const strengthMeter = document.querySelector('.password-strength');
-  
-  // Reset classes
-  strengthMeter.classList.remove('password-weak', 'password-medium', 'password-strong');
-  
-  if (password.length === 0) {
-    return;
-  } else if (password.length < 6) {
-    strengthMeter.classList.add('password-weak');
-  } else if (password.length < 10) {
-    strengthMeter.classList.add('password-medium');
-  } else {
-    strengthMeter.classList.add('password-strong');
-  }
-});
-
-// Toggle password visibility
-document.querySelectorAll('.toggle-password').forEach(button => {
-  button.addEventListener('click', function() {
-    const input = this.parentNode.querySelector('input');
-    const icon = this.querySelector('i');
-    
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
-    } else {
-      input.type = 'password';
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
-    }
-  });
-});
-</script>

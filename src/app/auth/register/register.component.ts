@@ -1,29 +1,27 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../auth.service';
+import { Component } from '@angular/core'
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms'
+import { Router } from '@angular/router'
+import { CommonModule } from '@angular/common'
+import { AuthService } from '../../../auth.service'
 
-// Password match validator
 export function passwordMatchValidator() {
   return (formGroup: AbstractControl) => {
-    const password = formGroup.get('password');
-    const confirmPassword = formGroup.get('confirmPassword');
+    const password = formGroup.get('password')
+    const confirmPassword = formGroup.get('confirmPassword')
 
-    if (!password || !confirmPassword) return null;
-
+    if (!password || !confirmPassword) return null
     if (password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ passwordMismatch: true });
-      return { passwordMismatch: true };
+      confirmPassword.setErrors({ passwordMismatch: true })
+      return { passwordMismatch: true }
     } else {
-      const errors = confirmPassword.errors;
+      const errors = confirmPassword.errors
       if (errors && errors['passwordMismatch']) {
-        delete errors['passwordMismatch'];
-        confirmPassword.setErrors(Object.keys(errors).length ? errors : null);
+        delete errors['passwordMismatch']
+        confirmPassword.setErrors(Object.keys(errors).length ? errors : null)
       }
-      return null;
+      return null
     }
-  };
+  }
 }
 
 @Component({
@@ -31,11 +29,11 @@ export function passwordMatchValidator() {
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
-  errorMessage: string | null = null;
+  registerForm: FormGroup
+  errorMessage: string | null = null
   isLoading = false
 
   constructor(
@@ -49,35 +47,33 @@ export class RegisterComponent {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
+        paymentOption: ['bank', Validators.required],
       },
       { validators: passwordMatchValidator() }
-    );
+    )
   }
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const { name, email, password } = this.registerForm.value;
+      this.isLoading = true
+      const { name, email, password, paymentOption } = this.registerForm.value
 
       this.authService
-        .register({
-          full_name: name,
-          email,
-          password,
-        })
+        .register({ full_name: name, email, password, paymentOption })
         .subscribe({
-          next: (res) => {
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('user', JSON.stringify(res.data.user));
-            this.router.navigate(['/draws']); // or dashboard
+          next: () => {
+            this.isLoading = false
+            this.router.navigate(['/pending-verification'])
           },
           error: (err) => {
-            this.errorMessage = err?.error?.message || 'Registration failed';
+            this.isLoading = false
+            this.errorMessage = err?.error?.message || 'Registration failed'
           },
-        });
+        })
     } else {
-      Object.values(this.registerForm.controls).forEach(control =>
+      Object.values(this.registerForm.controls).forEach((control) =>
         control.markAsTouched()
-      );
+      )
     }
   }
 }
