@@ -1,71 +1,262 @@
-<div class="join-draw card p-4 shadow">
+<p-dialog 
+  [(visible)]="visible" 
+  [header]="showForm ? 'Complete Your Entry' : 'Join Draw: ' + (draw?.prizeName || '')"
+  [modal]="true"
+  [style]="{width: '650px'}"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="!isLoading"
+  (onHide)="onClose()">
+  
   <!-- Loading state -->
-  <div *ngIf="isLoading" class="text-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Loading draw details...</p>
+  <div *ngIf="isLoading" style="text-align: center; padding: 3rem 2rem;">
+    <p-progressSpinner 
+      [style]="{width: '50px', height: '50px'}" 
+      strokeWidth="4">
+    </p-progressSpinner>
+    <p style="margin-top: 1rem; color: #6c757d;">
+      {{ showForm ? 'Submitting your entry...' : 'Loading draw details...' }}
+    </p>
   </div>
 
-  <!-- Draw details -->
-  <div *ngIf="!isLoading && draw">
-    <h3>🎯 Join Draw: {{ draw.prizeName }}</h3>
-
-    <div class="draw-details mt-3">
-      <p><strong>Description:</strong> {{ draw.description || 'No description available' }}</p>
-      <p><strong>Draw Date:</strong> {{ formatDate(draw.drawDate) }}</p>
-      <p *ngIf="draw.maxParticipants"><strong>Max Participants:</strong> {{ draw.currentParticipants || 0 }}/{{ draw.maxParticipants }}</p>
-      <p *ngIf="draw.entryFee"><strong>Entry Fee:</strong> ${{ draw.entryFee }}</p>
+  <!-- Draw Details View -->
+  <div *ngIf="!isLoading && draw && !showForm" style="padding: 1rem;">
+    
+    <!-- Prize Name Header -->
+    <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #dee2e6;">
+      <h4 style="color: var(--primary-color); margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="pi pi-gift"></i>
+        <span>{{ draw.prizeName }}</span>
+      </h4>
     </div>
 
-    <!-- Join button with conditions -->
-    <div class="mt-4">
-      <button 
-        class="btn btn-primary me-2" 
-        (click)="join()"
-        [disabled]="isLoading || isUserAlreadyJoined() || isDrawClosed()"
-        *ngIf="!isUserAlreadyJoined()">
-        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status"></span>
-        {{ isLoading ? 'Joining...' : 'Join Now' }}
-      </button>
+    <!-- Draw Information Grid -->
+    <div style="display: grid; gap: 1.25rem; margin-bottom: 1.5rem;">
+      
+      <!-- Description -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #495057;">
+          <i class="pi pi-align-left"></i>
+          <span>Description</span>
+        </div>
+        <div style="padding-left: 1.75rem; color: #6c757d;">
+          {{ draw.description || 'No description available' }}
+        </div>
+      </div>
 
-      <span *ngIf="isUserAlreadyJoined()" class="badge bg-success fs-6">
-        ✅ Already Joined
-      </span>
+      <!-- Draw Date -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #495057;">
+          <i class="pi pi-calendar"></i>
+          <span>Draw Date</span>
+        </div>
+        <div style="padding-left: 1.75rem; color: #6c757d;">
+          {{ formatDate(draw.drawDate) }}
+        </div>
+      </div>
 
-      <span *ngIf="isDrawClosed()" class="badge bg-secondary fs-6">
-        🔒 Draw Closed
-      </span>
+      <!-- Participants Count -->
+      <div *ngIf="draw.maxParticipants" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #495057;">
+          <i class="pi pi-users"></i>
+          <span>Participants</span>
+        </div>
+        <div style="padding-left: 1.75rem; color: #6c757d;">
+          {{ draw.participantCount || 0 }} / {{ draw.maxParticipants }}
+          <span *ngIf="draw.participantCount === draw.maxParticipants" 
+                style="color: #dc3545; font-weight: 600; margin-left: 0.5rem;">
+            (Full)
+          </span>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #495057;">
+          <i class="pi pi-info-circle"></i>
+          <span>Status</span>
+        </div>
+        <div style="padding-left: 1.75rem;">
+          <p-tag 
+            [value]="draw.status" 
+            [severity]="getStatusSeverity(draw.status)">
+          </p-tag>
+        </div>
+      </div>
     </div>
 
-    <!-- Participants list (optional) -->
-    <div *ngIf="draw.participants && draw.participants.length > 0" class="mt-4">
-      <h5>Participants ({{ draw.participants.length }})</h5>
-      <div class="participants-list">
-        <span 
-          *ngFor="let participant of draw.participants" 
-          class="badge bg-light text-dark me-1 mb-1">
-          {{ participant.user.name }}
-          <span *ngIf="participant.isWinner" class="text-warning">👑</span>
-        </span>
+    <!-- Status Messages -->
+    <div style="margin-bottom: 1.5rem;" *ngIf="isUserAlreadyJoined() || (isDrawClosed() && !isUserAlreadyJoined())">
+      <p-message 
+        *ngIf="isUserAlreadyJoined()" 
+        severity="success" 
+        text="You've already joined this draw"
+        [style]="{width: '100%'}">
+      </p-message>
+      
+      <p-message 
+        *ngIf="isDrawClosed() && !isUserAlreadyJoined()" 
+        severity="warn" 
+        text="This draw is closed and no longer accepting participants"
+        [style]="{width: '100%'}">
+      </p-message>
+    </div>
+
+    <!-- Participants List -->
+    <div *ngIf="draw.participants && draw.participants.length > 0" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #dee2e6;">
+      <h6 style="margin-bottom: 1rem; font-weight: 600; color: #495057; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="pi pi-users"></i>
+        <span>Participants ({{ draw.participants.length }})</span>
+      </h6>
+      <div style="max-height: 150px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <p-chip 
+          *ngFor="let participant of draw.participants"
+          [label]="participant.user?.name || 'User #' + participant.userId"
+          icon="pi pi-user"
+          [style]="{fontSize: '0.875rem'}">
+          <span *ngIf="participant.isWinner" style="margin-left: 0.25rem;">
+            <i class="pi pi-crown" style="color: #ffc107;"></i>
+          </span>
+        </p-chip>
       </div>
     </div>
   </div>
 
-  <!-- Error state -->
-  <div *ngIf="!isLoading && !draw && message" class="text-center">
-    <h4>⚠️ Unable to Load Draw</h4>
-    <p>{{ message }}</p>
-    <button class="btn btn-outline-primary" (click)="loadDraw()">
-      Try Again
-    </button>
+  <!-- Join Form View -->
+  <div *ngIf="!isLoading && draw && showForm" style="padding: 1rem;">
+    <form [formGroup]="joinForm">
+      
+      <!-- Info Message -->
+      <p-message 
+        severity="info" 
+        text="Please provide your details to complete your entry"
+        [style]="{width: '100%', marginBottom: '1.5rem'}">
+      </p-message>
+
+      <!-- Phone Number -->
+      <div class="p-field" style="margin-bottom: 1.5rem;">
+        <label for="phoneNumber" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;">
+          Phone Number <span style="color: #dc3545;">*</span>
+        </label>
+        <input 
+          id="phoneNumber"
+          type="text" 
+          pInputText 
+          formControlName="phoneNumber"
+          placeholder="e.g., 03001234567"
+          [class.ng-invalid]="isFieldInvalid('phoneNumber')"
+          [class.ng-dirty]="isFieldInvalid('phoneNumber')"
+          style="width: 100%;" />
+        <small *ngIf="isFieldInvalid('phoneNumber')" style="color: #dc3545;">
+          {{ getFieldError('phoneNumber') }}
+        </small>
+        <small style="display: block; margin-top: 0.25rem; color: #6c757d;">
+          Enter your Pakistani mobile number (03XX-XXXXXXX)
+        </small>
+      </div>
+
+      <!-- Bank Name -->
+      <div class="p-field" style="margin-bottom: 1.5rem;">
+        <label for="bankName" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;">
+          Bank/Payment Method <span style="color: #dc3545;">*</span>
+        </label>
+        <p-dropdown 
+          id="bankName"
+          formControlName="bankName"
+          [options]="banks"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select your bank"
+          [class.ng-invalid]="isFieldInvalid('bankName')"
+          [class.ng-dirty]="isFieldInvalid('bankName')"
+          [style]="{width: '100%'}">
+        </p-dropdown>
+        <small *ngIf="isFieldInvalid('bankName')" style="color: #dc3545;">
+          {{ getFieldError('bankName') }}
+        </small>
+      </div>
+
+      <!-- Account Number -->
+      <div class="p-field" style="margin-bottom: 1.5rem;">
+        <label for="accountNumber" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;">
+          Account Number / Mobile Wallet <span style="color: #dc3545;">*</span>
+        </label>
+        <input 
+          id="accountNumber"
+          type="text" 
+          pInputText 
+          formControlName="accountNumber"
+          placeholder="Enter account or wallet number"
+          [class.ng-invalid]="isFieldInvalid('accountNumber')"
+          [class.ng-dirty]="isFieldInvalid('accountNumber')"
+          style="width: 100%;" />
+        <small *ngIf="isFieldInvalid('accountNumber')" style="color: #dc3545;">
+          {{ getFieldError('accountNumber') }}
+        </small>
+        <small style="display: block; margin-top: 0.25rem; color: #6c757d;">
+          This will be used for prize distribution if you win
+        </small>
+      </div>
+
+      <!-- Additional Notes (Optional) -->
+      <div class="p-field" style="margin-bottom: 1.5rem;">
+        <label for="participationNotes" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #495057;">
+          Additional Notes (Optional)
+        </label>
+        <textarea 
+          id="participationNotes"
+          pInputTextarea 
+          formControlName="participationNotes"
+          placeholder="Any additional information..."
+          rows="3"
+          style="width: 100%;">
+        </textarea>
+      </div>
+
+      <!-- Terms Notice -->
+      <p-message 
+        severity="warn" 
+        text="By submitting, you agree that the information provided is accurate and will be used for prize distribution."
+        [style]="{width: '100%'}">
+      </p-message>
+    </form>
   </div>
 
-  <!-- Messages -->
-  <div *ngIf="message" class="alert mt-3" 
-       [class.alert-success]="message.includes('✅')"
-       [class.alert-danger]="message.includes('❌')"
-       [class.alert-info]="!message.includes('✅') && !message.includes('❌')">
-    {{ message }}
-  </div>
-</div>
+  <!-- Modal Footer -->
+  <ng-template pTemplate="footer">
+    <!-- Details View Footer -->
+    <ng-container *ngIf="!showForm">
+      <p-button 
+        label="Cancel" 
+        icon="pi pi-times" 
+        (onClick)="onClose()"
+        [text]="true"
+        [disabled]="isLoading">
+      </p-button>
+      <p-button 
+        label="Proceed to Join" 
+        icon="pi pi-arrow-right"
+        (onClick)="proceedToForm()"
+        [disabled]="isLoading || isUserAlreadyJoined() || isDrawClosed()">
+      </p-button>
+    </ng-container>
+
+    <!-- Form View Footer -->
+    <ng-container *ngIf="showForm">
+      <p-button 
+        label="Back" 
+        icon="pi pi-arrow-left" 
+        (onClick)="backToDetails()"
+        [text]="true"
+        [disabled]="isLoading">
+      </p-button>
+      <p-button 
+        label="Submit Entry" 
+        icon="pi pi-check"
+        (onClick)="submitJoin()"
+        [loading]="isLoading"
+        [disabled]="isLoading || joinForm.invalid">
+      </p-button>
+    </ng-container>
+  </ng-template>
+</p-dialog>

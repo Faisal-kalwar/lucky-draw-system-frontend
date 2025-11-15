@@ -1,17 +1,68 @@
-<div class="draw-list-wrapper">
+<div class="card">
   <h2>Available Lucky Draws</h2>
-
-  <div class="draw-card" *ngFor="let draw of draws">
-    <h3>{{ draw.prizeName }}</h3>
-    <p><strong>Date:</strong> {{ draw.drawDate | date }}</p>
-    <p><strong>Status:</strong> {{ draw.status }}</p>
-
-    <button 
-      class="btn btn-primary"
-      [disabled]="draw.joined || draw.status !== 'Open'"
-      (click)="joinDraw(draw.id)"
-    >
-      {{ draw.joined ? 'Joined' : 'Join' }}
-    </button>
-  </div>
+  
+  <p-table 
+    [value]="activeDraws" 
+    [loading]="loading"
+    [paginator]="true" 
+    [rows]="10"
+    [responsive]="true"
+    styleClass="p-datatable-gridlines">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Prize Name</th>
+        <th>Description</th>
+        <th>Draw Date</th>
+        <th>Participants</th>
+        <th>Status</th>
+        <th style="width: 150px">Action</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-draw>
+      <tr>
+        <td><strong>{{ draw.prizeName }}</strong></td>
+        <td>{{ draw.description }}</td>
+        <td>{{ draw.drawDate | date: 'MMM dd, yyyy' }}</td>
+        <td>
+          <i class="pi pi-users"></i> 
+          {{ draw.participantCount || 0 }}
+          <span *ngIf="draw.maxParticipants"> / {{ draw.maxParticipants }}</span>
+        </td>
+        <td>
+          <p-tag 
+            [value]="draw.status" 
+            [severity]="getStatusSeverity(draw.status)">
+          </p-tag>
+        </td>
+        <td>
+          <p-button 
+            [label]="getButtonLabel(draw.id)"
+            [icon]="getButtonIcon(draw.id)"
+            [disabled]="isJoined(draw.id) || draw.status !== 'active'"
+            [severity]="isJoined(draw.id) ? 'success' : 'primary'"
+            (onClick)="openJoinModal(draw)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" style="text-align: center">
+          No active draws available at the moment
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
+
+<!-- Join Draw Modal Component -->
+<app-join-draw
+  [(visible)]="showJoinModal"
+  [drawId]="selectedDrawId"
+  (joinSuccess)="onJoinSuccess()">
+</app-join-draw>
+
+<p-toast position="top-right"></p-toast>

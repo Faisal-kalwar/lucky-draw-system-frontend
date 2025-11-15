@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core'
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms'
-import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
+import { AuthService } from '../../../auth.service' // ✅ Fix the import (AuthService, not authService)
 
 @Component({
   selector: 'app-login',
@@ -13,9 +13,10 @@ import { CommonModule } from '@angular/common'
 })
 export class LoginComponent {
   fb = inject(FormBuilder)
-  http = inject(HttpClient)
   router = inject(Router)
+  authService = inject(AuthService) // ✅ Inject AuthService
   isLoading = false
+  email: any
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -25,25 +26,18 @@ export class LoginComponent {
   errorMessage = ''
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) return
 
-    this.isLoading = true;
-    this.errorMessage = '';
+    this.isLoading = true
+    this.errorMessage = ''
 
-    const { email, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value as { email: string; password: string };
 
-    this.http.post<any>('http://localhost:3333/login', { email, password }).subscribe({
+    this.authService.login({ email, password }).subscribe({
       next: (res) => {
-        const user = res.data.user;
-
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(user));
-
-        if (user.role === 'admin') {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          this.router.navigate(['home']);
-        }
+        // token and user are already saved
+        console.log('Logged in as:', res.user);
+        this.router.navigate(['/home']); // navigate after login
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Login failed';
