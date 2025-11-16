@@ -111,7 +111,7 @@
       <div style="max-height: 150px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 0.5rem;">
         <p-chip 
           *ngFor="let participant of draw.participants"
-          [label]="participant.user?.name || 'User #' + participant.userId"
+          [label]="participant.user.name || 'User #' + participant.userId"
           icon="pi pi-user"
           [style]="{fontSize: '0.875rem'}">
           <span *ngIf="participant.isWinner" style="margin-left: 0.25rem;">

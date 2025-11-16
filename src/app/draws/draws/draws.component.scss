@@ -1,0 +1,43 @@
+.enhanced-card {
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.table-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .title {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+}
+
+.search-box input {
+  width: 220px;
+}
+
+.modern-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ml-2 {
+  margin-left: .5rem;
+}

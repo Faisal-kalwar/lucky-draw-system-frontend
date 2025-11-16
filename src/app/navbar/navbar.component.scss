@@ -1,0 +1,53 @@
+/* Navbar wrapper */
+.navbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(79, 79, 79, 0.1);
+}
+
+/* PrimeNG Menubar */
+.p-menubar {
+  background-color: #18191b !important; /* Dark green */
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* Menu item text */
+.p-menubar .p-menuitem-link span,
+.p-menubar .p-menuitem-link i {
+  color: #ffffff !important; /* White text and icons */
+  transition: background-color 0.3s;
+}
+
+/* Hover state */
+.p-menubar .p-menuitem-link:hover span,
+.p-menubar .p-menuitem-link:hover i {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Focus state */
+.p-menubar .p-menuitem-link:focus {
+  box-shadow: none;
+}
+
+/* Mobile menu button */
+.p-menubar-button {
+  color: #ffffff !important;
+}
+
+/* Navbar brand */
+.navbar-brand {
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+/* Active link styling */
+.p-menuitem-link.active {
+  background: rgba(255, 255, 255, 0.2) !important;
+}

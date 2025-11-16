@@ -1,39 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">LuckyWin</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <!-- PUBLIC LINKS -->
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/">Home</a>
-        </li>
-
-        <!-- USER LINKS -->
-        <li *ngIf="user?.role === 'user'" class="nav-item">
-          <a class="nav-link" routerLink="/available-draws">Available Draws</a>
-        </li>
-
-        <!-- ADMIN LINKS -->
-        <ng-container *ngIf="user?.role === 'admin'">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/draws">All Draws</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/draws/create">Create Draw</a>
-          </li>
-        </ng-container>
-
-        <!-- LOGIN / LOGOUT -->
-        <li *ngIf="!user" class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
-        </li>
-        <li *ngIf="user" class="nav-item">
-          <a class="nav-link" (click)="logout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<div class="navbar-wrapper">
+  <p-menubar [model]="menuItems">
+    <ng-template pTemplate="start">
+      <a routerLink="/" class="navbar-brand">
+        LuckyWin
+      </a>
+    </ng-template>
+  </p-menubar>
+</div>

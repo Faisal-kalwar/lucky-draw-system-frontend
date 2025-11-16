@@ -1,68 +1,95 @@
-<div class="card">
-  <h2>Available Lucky Draws</h2>
-  
-  <p-table 
-    [value]="activeDraws" 
-    [loading]="loading"
-    [paginator]="true" 
-    [rows]="10"
-    [responsive]="true"
-    styleClass="p-datatable-gridlines">
-    
+<div class="card enhanced-card">
+  <div class="table-header-section">
+
+    <div class="left-section">
+      <h2 class="title"><i class="pi pi-gift"></i> Available Lucky Draws</h2>
+
+      <!-- Search Input -->
+      <span class="p-input-icon-left search-box">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Search draws..." (input)="onGlobalFilter($event)" />
+      </span>
+
+    </div>
+
+    <div class="right-section">
+      <!-- My Draws Button -->
+      <!-- Show All Draws Button -->
+      <button pButton label="All Draws" icon="pi pi-list" severity="secondary" 
+              (click)="loadDraws()" class="mr-2">
+      </button>
+      
+      <!-- My Draws Button -->
+      <button pButton label="My Draws" icon="pi pi-user" severity="secondary" 
+              (click)="loadMyDraws()" class="mr-2">
+      </button>
+
+      <!-- Reload -->
+      <button pButton icon="pi pi-refresh" severity="info" class="mr-2" 
+              (click)="loadDraws()" [disabled]="loading">
+      </button>
+
+      <!-- Export -->
+      <button pButton label="Export" icon="pi pi-download" severity="success" 
+              (click)="manualExportCSV()" [disabled]="loading || !activeDraws.length">
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center p-4">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Loading draws...</p>
+  </div>
+
+
+  <p-table #dt [value]="activeDraws" [loading]="loading" [paginator]="true" [rows]="10"
+    [globalFilterFields]="['prizeName','description','status']" styleClass="p-datatable-gridlines modern-table">
     <ng-template pTemplate="header">
       <tr>
-        <th>Prize Name</th>
+        <th pSortableColumn="prizeName">Prize <p-sortIcon field="prizeName"></p-sortIcon></th>
         <th>Description</th>
-        <th>Draw Date</th>
+        <th pSortableColumn="drawDate">Draw Date <p-sortIcon field="drawDate"></p-sortIcon></th>
         <th>Participants</th>
         <th>Status</th>
-        <th style="width: 150px">Action</th>
+        <th style="width: 160px">Action</th>
       </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="body" let-draw>
       <tr>
         <td><strong>{{ draw.prizeName }}</strong></td>
         <td>{{ draw.description }}</td>
-        <td>{{ draw.drawDate | date: 'MMM dd, yyyy' }}</td>
+        <td>{{ draw.drawDate | date:'MMM dd, yyyy' }}</td>
         <td>
-          <i class="pi pi-users"></i> 
+          <i class="pi pi-users"></i>
           {{ draw.participantCount || 0 }}
           <span *ngIf="draw.maxParticipants"> / {{ draw.maxParticipants }}</span>
         </td>
+
         <td>
-          <p-tag 
-            [value]="draw.status" 
-            [severity]="getStatusSeverity(draw.status)">
+          <p-tag [value]="draw.status" [severity]="getStatusSeverity(draw.status)">
           </p-tag>
         </td>
+
         <td>
-          <p-button 
-            [label]="getButtonLabel(draw.id)"
-            [icon]="getButtonIcon(draw.id)"
+          <p-button [label]="getButtonLabel(draw.id)" [icon]="getButtonIcon(draw.id)"
             [disabled]="isJoined(draw.id) || draw.status !== 'active'"
-            [severity]="isJoined(draw.id) ? 'success' : 'primary'"
-            (onClick)="openJoinModal(draw)">
+            [severity]="isJoined(draw.id) ? 'success' : 'primary'" (onClick)="openJoinModal(draw)">
           </p-button>
         </td>
       </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6" style="text-align: center">
-          No active draws available at the moment
-        </td>
+        <td colspan="6" class="text-center">No draws found</td>
       </tr>
     </ng-template>
   </p-table>
 </div>
 
-<!-- Join Draw Modal Component -->
-<app-join-draw
-  [(visible)]="showJoinModal"
-  [drawId]="selectedDrawId"
-  (joinSuccess)="onJoinSuccess()">
+<!-- Modal -->
+<app-join-draw [(visible)]="showJoinModal" [drawId]="selectedDrawId" (joinSuccess)="onJoinSuccess()">
 </app-join-draw>
 
 <p-toast position="top-right"></p-toast>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,8 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { JoinDrawModalComponent } from '../join-draw/join-draw.component';
+import { Table } from 'primeng/table';
+
 
 interface Draw {
   id: number;
@@ -46,16 +48,19 @@ interface Participation {
   styleUrls: ['./draws.component.scss']
 })
 export class DrawsComponent implements OnInit {
-  draws: Draw[] = [];
   activeDraws: Draw[] = [];
+  draws: Draw[] = [];
   loading: boolean = true;
   joinedDrawIds: Set<number> = new Set();
-  
+  @ViewChild('dt', { static: false }) table!: Table;
+
+
+
   // Modal properties
   showJoinModal: boolean = false;
   selectedDrawId: number | null = null;
   currentUserId: number = 1;
-  
+
   private apiUrl = 'http://localhost:3333';
 
   constructor(
@@ -96,6 +101,95 @@ export class DrawsComponent implements OnInit {
       });
   }
 
+  // Load only draws the user joined
+  loadMyDraws() {
+    this.loading = true;
+
+    this.http.get<{ success: boolean; data: Draw[] }>(
+      `${this.apiUrl}/draws?userId=${this.currentUserId}`
+    )
+      .subscribe({
+        next: (res) => {
+          // Ensure we always have an array, even if res.data is undefined
+          this.activeDraws = res.data || [];
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading my draws:', error);
+          this.activeDraws = []; // Reset to empty array on error
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to load your draws'
+          });
+        }
+      });
+  }
+
+  manualExportCSV() {
+    if (!this.activeDraws || this.activeDraws.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'No data available to export'
+      });
+      return;
+    }
+
+    try {
+      const csvContent = this.convertToCSV(this.activeDraws);
+      this.downloadCSV(csvContent, 'draws-export.csv');
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Data exported successfully'
+      });
+    } catch (error) {
+      console.error('Manual export error:', error);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Export Failed',
+        detail: 'Could not export data'
+      });
+    }
+  }
+
+  private convertToCSV(data: any[]): string {
+    if (!data.length) return '';
+
+    const headers = Object.keys(data[0]);
+    const csvHeaders = headers.map(header => `"${header}"`).join(',');
+
+    const csvRows = data.map(row => {
+      return headers.map(header => {
+        const value = row[header] === null || row[header] === undefined ? '' : row[header];
+        return `"${String(value).replace(/"/g, '""')}"`;
+      }).join(',');
+    });
+
+    return [csvHeaders, ...csvRows].join('\n');
+  }
+
+  private downloadCSV(csvContent: string, filename: string) {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  onGlobalFilter(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.table.filterGlobal(input?.value || '', 'contains');
+  }
+
   loadParticipantCount(draw: Draw): void {
     this.http.get<{ success: boolean; data: Participation[] }>(
       `${this.apiUrl}/draws/${draw.id}/participants`
@@ -113,13 +207,13 @@ export class DrawsComponent implements OnInit {
       }
     });
   }
-openJoinModal(draw: Draw): void {
-  this.selectedDrawId = draw.id;
-  // Use setTimeout to ensure drawId is set before modal opens
-  setTimeout(() => {
-    this.showJoinModal = true;
-  }, 0);
-}
+  openJoinModal(draw: Draw): void {
+    this.selectedDrawId = draw.id;
+    // Use setTimeout to ensure drawId is set before modal opens
+    setTimeout(() => {
+      this.showJoinModal = true;
+    }, 0);
+  }
 
   onJoinSuccess(): void {
     // Reload draws to update participant counts and joined status
