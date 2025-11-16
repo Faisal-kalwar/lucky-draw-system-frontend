@@ -1,71 +1,52 @@
 <div class="login-container">
   <div class="login-card">
     <div class="login-header">
-      <img src="https://cdn-icons-png.flaticon.com/512/912/912399.png" alt="LuckyWin Logo" class="login-logo">
-      <h2>Welcome Back!</h2>
-      <p class="subtitle">Login to your account to join exciting lucky draws</p>
+      <h1>Welcome Back!</h1>
+      <p>Login to your account to join exciting lucky draws</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="email">Email Address</label>
-        <div class="input-with-icon">
-          <i class="fas fa-envelope"></i>
-          <input 
-            type="email" 
-            id="email" 
-            formControlName="email" 
-            placeholder="admin@admin.com"
-          >
-          @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
-            <small class="error-message">Email is required</small>
-          }
-          @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
-            <small class="error-message">Please enter a valid email</small>
-          }
-        </div>
+        <label for="email">Email</label>
+        <input 
+          id="email" 
+          type="email" 
+          pInputText 
+          formControlName="email" 
+          class="form-control"
+        />
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <div class="input-with-icon">
-          <i class="fas fa-lock"></i>
-          <input 
-            type="password" 
-            id="password" 
-            formControlName="password" 
-            placeholder="••••••••"
-          >
-          <button type="button" class="toggle-password">
-            <i class="far fa-eye"></i>
-          </button>
-          @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
-            <small class="error-message">Password is required</small>
-          }
-        </div>
+        <p-password 
+          id="password"
+          formControlName="password" 
+          [feedback]="false" 
+          placeholder="••••••••••••"
+          [toggleMask]="false"
+          inputStyleClass="password-field"
+        ></p-password>
       </div>
 
-      @if (errorMessage) {
-        <div class="error-message">
-          {{ errorMessage }}
-        </div>
-      }
-
-      <button type="submit" class="login-button" [disabled]="loginForm.invalid || isLoading">
-        @if (isLoading) {
-          <i class="fas fa-spinner fa-spin"></i>
-        } @else {
-          Login
-        }
-      </button>
-
-      <div class="form-options">
-        <a href="#" class="forgot-password">Forgot password?</a>
-      </div>
+      <button 
+        pButton 
+        type="submit" 
+        label="Login" 
+        class="login-btn"
+        [loading]="isLoading"
+        [disabled]="isLoading"
+      ></button>
     </form>
 
-    <div class="register-link">
-      Don't have an account? <a href="#">Register here</a>
+    <div class="extra-links">
+      <a routerLink="/forgot-password">Forgot password?</a>
+      <span class="separator">|</span>
+      <a routerLink="/register">Register</a>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      <p-message severity="error" [text]="errorMessage"></p-message>
     </div>
   </div>
 </div>

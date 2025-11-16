@@ -197,3 +197,32 @@
     }
   }
 }
+.participants-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  i {
+    color: #6366f1;
+  }
+
+  .count {
+    font-weight: 600;
+  }
+
+  &.clickable {
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0.5rem;
+    border-radius: 6px;
+
+    &:hover {
+      background: #f3f4f6;
+      color: #4f46e5;
+
+      i {
+        color: #4f46e5;
+      }
+    }
+  }
+}

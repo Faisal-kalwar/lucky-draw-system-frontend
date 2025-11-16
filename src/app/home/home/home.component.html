@@ -1,367 +1,308 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuckyWin - Pakistan's Premium Lucky Draw Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="home-wrapper">
-        <section class="hero-section text-white">
-            <div class="hero-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+      
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <span class="hero-badge">
+              <i class="pi pi-star-fill"></i>
+              NEW LAUNCH
+            </span>
+            <h1 class="hero-title">
+              Win Amazing Prizes With 
+              <span class="highlight">LuckyWin</span>
+            </h1>
+            <p class="hero-subtitle">
+              Join Pakistan's most trusted lucky draw platform with thousands of winners and transparent draws.
+            </p>
+            
+            <div class="hero-actions">
+              <button pButton pRipple 
+                      label="Join Now - It's Free" 
+                      icon="pi pi-user-plus"
+                      class="p-button-lg p-button-warning"
+                      (click)="navigateToRegister()">
+              </button>
+              <button pButton pRipple 
+                      label="Sign In" 
+                      icon="pi pi-sign-in"
+                      class="p-button-lg p-button-outlined"
+                      (click)="navigateToLogin()">
+              </button>
             </div>
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 hero-content">
-                        <span class="badge bg-white text-primary mb-3 px-3 py-2 fw-bold">NEW LAUNCH</span>
-                        <h1 class="hero-title display-3 fw-bold mb-4">Win Amazing Prizes <br>With <span class="text-warning">LuckyWin</span></h1>
-                        <p class="hero-subtitle lead fs-4 mb-4">
-                            Join Pakistan's most trusted lucky draw platform with thousands of winners and transparent draws.
-                        </p>
-                        <div class="d-flex flex-wrap gap-3 mb-4">
-                            <a href="/register" class="btn btn-warning btn-lg px-4 py-3 fw-bold shadow pulse">Join Now - It's Free</a>
-                            <a href="/login" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold">Sign In</a>
-                        </div>
-                        <div class="d-flex flex-wrap gap-4 align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="me-3">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <i class="fas fa-star text-warning"></i>
-                                </div>
-                                <span>4.9/5 (10,000+ Reviews)</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-medal text-warning me-2"></i>
-                                <span>Trusted by 500K+ Users</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 hero-img-container mt-5 mt-lg-0">
-                        <img src="https://cdn-icons-png.flaticon.com/512/912/912399.png" alt="Gift box illustration" class="hero-img img-fluid">
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- 🏆 Stats Bar -->
-        <section class="bg-dark text-white py-4">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-md-3 col-6 text-center">
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-0 fw-bold">50,000+</h5>
-                                <small>Winners</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 text-center">
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-0 fw-bold">10M+</h5>
-                                <small>Prizes Given</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 text-center">
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-0 fw-bold">500K+</h5>
-                                <small>Members</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 text-center">
-                        <div class="stat-item">
-                            <div class="stat-icon">
-                                <i class="fas fa-draw-polygon"></i>
-                            </div>
-                            <div>
-                                <h5 class="mb-0 fw-bold">100+</h5>
-                                <small>Daily Draws</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <i class="pi pi-star-fill"></i>
+                <span>4.9/5 Rating</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <i class="pi pi-users"></i>
+                <span>500K+ Users</span>
+              </div>
             </div>
-        </section>
-
-        <!-- 🎁 Features Section -->
-        <section class="features-section">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 fw-bold">WHY CHOOSE US</span>
-                    <h2 class="section-title display-5 fw-bold mb-3">Premium Lucky Draw Experience</h2>
-                    <p class="text-muted fs-5 mx-auto" style="max-width: 700px;">We've created the most exciting and transparent lucky draw platform in Pakistan with amazing rewards for everyone</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="feature-card">
-                            <div class="feature-icon bg-primary">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <h4 class="fw-bold mb-3 text-center">100% Secure</h4>
-                            <p class="text-muted text-center">All draws are conducted live with complete transparency. Our blockchain-based system ensures fairness in every draw.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-card">
-                            <div class="feature-icon bg-success">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <h4 class="fw-bold mb-3 text-center">Instant Payouts</h4>
-                            <p class="text-muted text-center">Win and withdraw your prizes instantly. No waiting periods or complicated processes.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-card">
-                            <div class="feature-icon bg-warning">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <h4 class="fw-bold mb-3 text-center">Exclusive Rewards</h4>
-                            <p class="text-muted text-center">From smartphones to luxury cars and cash prizes up to 10 million PKR.</p>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          
+          <div class="col-lg-6">
+            <div class="hero-image">
+              <img src="https://cdn-icons-png.flaticon.com/512/912/912399.png" 
+                   alt="Gift box" 
+                   class="floating">
             </div>
-        </section>
-
-        <!-- ✨ Testimonials Section -->
-        <section class="testimonials-section text-white">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold">SUCCESS STORIES</span>
-                    <h2 class="section-title display-5 fw-bold mb-3">What Our Winners Say</h2>
-                    <p class="text-white-50 fs-5 mx-auto" style="max-width: 700px;">Hear from our community of lucky winners across Pakistan</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="testimonial-card">
-                            <div class="d-flex align-items-center mb-4">
-                                <img src="https://randomuser.me/api/portraits/women/32.jpg" class="user-img me-3" alt="Ayesha">
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Ayesha Khan</h6>
-                                    <small class="text-muted">Karachi</small>
-                                </div>
-                            </div>
-                            <p class="mb-4">"I couldn't believe it when I won the iPhone 14 Pro! The entire process was so smooth and the delivery was incredibly fast. LuckyWin is definitely legit!"</p>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card">
-                            <div class="d-flex align-items-center mb-4">
-                                <img src="https://randomuser.me/api/portraits/men/22.jpg" class="user-img me-3" alt="Ali">
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Ali Raza</h6>
-                                    <small class="text-muted">Lahore</small>
-                                </div>
-                            </div>
-                            <p class="mb-4">"The transparency of the live draws is what convinced me. I've participated in several draws and already won a smartwatch and cash prizes!"</p>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="testimonial-card">
-                            <div class="d-flex align-items-center mb-4">
-                                <img src="https://randomuser.me/api/portraits/women/45.jpg" class="user-img me-3" alt="Sana">
-                                <div>
-                                    <h6 class="mb-0 fw-bold">Sana Ahmed</h6>
-                                    <small class="text-muted">Islamabad</small>
-                                </div>
-                            </div>
-                            <p class="mb-4">"Customer support is amazing! They helped me with my first withdrawal and now I'm hooked. The community is great and the prizes are real!"</p>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 🏆 Winners Section -->
-        <section class="winners-section">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold">LATEST WINNERS</span>
-                    <h2 class="section-title display-5 fw-bold mb-3">Our Recent Winners</h2>
-                    <p class="text-muted fs-5 mx-auto" style="max-width: 700px;">Real people winning amazing prizes every single day</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-3 col-6">
-                        <div class="winner-card">
-                            <img src="https://randomuser.me/api/portraits/men/15.jpg" class="winner-img" alt="Winner">
-                            <h5 class="fw-bold mb-1">Ahmed R.</h5>
-                            <small class="text-muted d-block mb-2">Lahore</small>
-                            <span class="prize-badge">iPhone 14 Pro</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="winner-card">
-                            <img src="https://randomuser.me/api/portraits/women/25.jpg" class="winner-img" alt="Winner">
-                            <h5 class="fw-bold mb-1">Fatima K.</h5>
-                            <small class="text-muted d-block mb-2">Karachi</small>
-                            <span class="prize-badge">PKR 500,000</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="winner-card">
-                            <img src="https://randomuser.me/api/portraits/men/42.jpg" class="winner-img" alt="Winner">
-                            <h5 class="fw-bold mb-1">Bilal S.</h5>
-                            <small class="text-muted d-block mb-2">Islamabad</small>
-                            <span class="prize-badge">MacBook Air</span>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="winner-card">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="winner-img" alt="Winner">
-                            <h5 class="fw-bold mb-1">Zainab M.</h5>
-                            <small class="text-muted d-block mb-2">Faisalabad</small>
-                            <span class="prize-badge">Samsung S23</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center mt-5">
-                    <a href="/winners" class="btn btn-outline-primary btn-lg px-5">View All Winners</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- 🚀 CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <div class="cta-box text-center">
-                    <h2 class="display-4 fw-bold mb-4">Ready To Win Big?</h2>
-                    <p class="fs-5 mb-5 mx-auto" style="max-width: 600px;">Join Pakistan's most exciting lucky draw platform today. It's free to sign up and you could be our next big winner!</p>
-                    <div class="d-flex flex-wrap gap-3 justify-content-center mb-5">
-                        <a href="/register" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow pulse">Join Now - It's Free</a>
-                        <a href="/how-it-works" class="btn btn-outline-dark btn-lg px-5 py-3 fw-bold">How It Works</a>
-                    </div>
-                    <div class="d-flex flex-wrap justify-content-center gap-4">
-                        <div class="stat-item">
-                            <div class="stat-icon bg-success">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Secure Platform</h6>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon bg-warning">
-                                <i class="fas fa-hand-holding-usd"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">Instant Withdrawals</h6>
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-icon bg-primary">
-                                <i class="fas fa-headset"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold">24/7 Support</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-dark text-white py-5">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-lg-4">
-                        <h4 class="fw-bold mb-4">LuckyWin</h4>
-                        <p>Pakistan's most trusted lucky draw platform with thousands of happy winners and counting.</p>
-                        <div class="d-flex gap-3 mt-4">
-                            <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-                        <h5 class="fw-bold mb-4">Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-white-50">Home</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">About Us</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">How It Works</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">Prizes</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">Winners</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-                        <h5 class="fw-bold mb-4">Legal</h5>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#" class="text-white-50">Terms</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">Privacy</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">Cookies</a></li>
-                            <li class="mb-2"><a href="#" class="text-white-50">Compliance</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <h5 class="fw-bold mb-4">Contact Us</h5>
-                        <ul class="list-unstyled">
-                            <li class="mb-3 d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt me-3"></i>
-                                <span>123 Main Street, Karachi, Pakistan</span>
-                            </li>
-                            <li class="mb-3 d-flex align-items-center">
-                                <i class="fas fa-phone-alt me-3"></i>
-                                <span>+92 300 1234567</span>
-                            </li>
-                            <li class="mb-3 d-flex align-items-center">
-                                <i class="fas fa-envelope me-3"></i>
-                                <span>"support</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <hr class="my-4 bg-secondary">
-                <div class="text-center text-white-50">
-                    <p class="mb-0">© 2023 LuckyWin. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon primary">
+              <i class="pi pi-gift"></i>
+            </div>
+            <div class="stat-content">
+              <h3>{{ stats.totalDraws }}+</h3>
+              <p>Total Draws</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon success">
+              <i class="pi pi-chart-line"></i>
+            </div>
+            <div class="stat-content">
+              <h3>{{ stats.activeDraws }}+</h3>
+              <p>Active Draws</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon warning">
+              <i class="pi pi-users"></i>
+            </div>
+            <div class="stat-content">
+              <h3>{{ stats.totalParticipants }}+</h3>
+              <p>Participants</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stat-box">
+            <div class="stat-icon info">
+              <i class="pi pi-trophy"></i>
+            </div>
+            <div class="stat-content">
+              <h3>{{ stats.totalWinners }}+</h3>
+              <p>Winners</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Draws Section -->
+  <section class="featured-draws-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-badge">
+            <i class="pi pi-sparkles"></i>
+            FEATURED DRAWS
+          </span>
+          <h2 class="section-title">Active Lucky Draws</h2>
+          <p class="section-subtitle">Participate in exciting draws and win amazing prizes</p>
+        </div>
+        <button pButton pRipple 
+                label="View All" 
+                icon="pi pi-arrow-right"
+                iconPos="right"
+                class="p-button-text"
+                (click)="viewAllDraws()">
+        </button>
+      </div>
+
+      <div class="draws-grid" *ngIf="!isLoading && featuredDraws.length > 0">
+        <p-card *ngFor="let draw of featuredDraws" class="draw-card">
+          <ng-template pTemplate="header">
+            <div class="draw-card-header">
+              <div class="prize-icon">
+                <i class="pi pi-gift"></i>
+              </div>
+              <p-tag [value]="draw.status" 
+                     [severity]="getStatusSeverity(draw.status)">
+              </p-tag>
+            </div>
+          </ng-template>
+
+          <div class="draw-card-content">
+            <h3 class="draw-title">{{ draw.prizeName }}</h3>
+            <p class="draw-description">{{ draw.description || 'Join this exciting draw for a chance to win!' }}</p>
+
+            <div class="draw-meta">
+              <div class="meta-item">
+                <i class="pi pi-calendar"></i>
+                <span>{{ formatDate(draw.drawDate) }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="pi pi-users"></i>
+                <span>{{ draw.participants || 0 }}/{{ draw.maxParticipants }}</span>
+              </div>
+            </div>
+          </div>
+
+          <ng-template pTemplate="footer">
+            <button pButton pRipple 
+                    label="Join Draw" 
+                    icon="pi pi-arrow-right"
+                    iconPos="right"
+                    class="p-button-success w-full"
+                    (click)="joinDraw(draw)">
+            </button>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="draws-grid" *ngIf="isLoading">
+        <p-card *ngFor="let item of [1,2,3,4,5,6]" class="draw-card">
+          <ng-template pTemplate="header">
+            <p-skeleton width="100%" height="150px"></p-skeleton>
+          </ng-template>
+          <p-skeleton width="100%" height="20px" styleClass="mb-3"></p-skeleton>
+          <p-skeleton width="80%" height="15px" styleClass="mb-2"></p-skeleton>
+          <p-skeleton width="60%" height="15px"></p-skeleton>
+          <ng-template pTemplate="footer">
+            <p-skeleton width="100%" height="40px"></p-skeleton>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!isLoading && featuredDraws.length === 0">
+        <i class="pi pi-inbox"></i>
+        <h3>No Active Draws</h3>
+        <p>Check back soon for exciting new draws!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-header centered">
+        <span class="section-badge">
+          <i class="pi pi-star"></i>
+          WHY CHOOSE US
+        </span>
+        <h2 class="section-title">Premium Lucky Draw Experience</h2>
+        <p class="section-subtitle">We've created the most exciting and transparent platform in Pakistan</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6" *ngFor="let feature of features">
+          <div class="feature-card">
+            <div class="feature-icon" [ngClass]="feature.color">
+              <i [class]="feature.icon"></i>
+            </div>
+            <h4>{{ feature.title }}</h4>
+            <p>{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-header centered">
+        <span class="section-badge light">
+          <i class="pi pi-comments"></i>
+          SUCCESS STORIES
+        </span>
+        <h2 class="section-title">What Our Winners Say</h2>
+        <p class="section-subtitle">Hear from our community of lucky winners</p>
+      </div>
+
+      <p-carousel [value]="testimonials" 
+                  [numVisible]="3" 
+                  [numScroll]="1"
+                  [circular]="true"
+                  [autoplayInterval]="5000"
+                  [responsiveOptions]="carouselResponsiveOptions">
+        <ng-template let-testimonial pTemplate="item">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img [src]="testimonial.image" 
+                   [alt]="testimonial.name" 
+                   class="testimonial-avatar">
+              <div>
+                <h5>{{ testimonial.name }}</h5>
+                <p>{{ testimonial.location }}</p>
+              </div>
+            </div>
+            <p class="testimonial-text">{{ testimonial.text }}</p>
+            <div class="testimonial-rating">
+              <i class="pi pi-star-fill" *ngFor="let star of getRatingArray(testimonial.rating)"></i>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-content">
+          <h2>Ready To Win Big?</h2>
+          <p>Join Pakistan's most exciting lucky draw platform today. It's free to sign up and you could be our next big winner!</p>
+          <div class="cta-actions">
+            <button pButton pRipple 
+                    label="Join Now - It's Free" 
+                    icon="pi pi-user-plus"
+                    class="p-button-lg p-button-warning"
+                    (click)="navigateToRegister()">
+            </button>
+            <button pButton pRipple 
+                    label="View Draws" 
+                    icon="pi pi-gift"
+                    class="p-button-lg p-button-outlined"
+                    (click)="viewAllDraws()">
+            </button>
+          </div>
+          <div class="cta-features">
+            <div class="cta-feature">
+              <i class="pi pi-shield"></i>
+              <span>Secure Platform</span>
+            </div>
+            <div class="cta-feature">
+              <i class="pi pi-bolt"></i>
+              <span>Instant Results</span>
+            </div>
+            <div class="cta-feature">
+              <i class="pi pi-headphones"></i>
+              <span>24/7 Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

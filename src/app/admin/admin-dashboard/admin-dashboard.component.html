@@ -1,22 +1,57 @@
 <div class="dashboard-container">
-  <h2>Admin Dashboard</h2>
+  <h2 class="dashboard-title">Admin Dashboard</h2>
 
+  <!-- Stats Cards -->
   <div class="stats-grid">
-    <div class="stat-card">
-      <h4>Total Draws</h4>
-      <p>{{ stats.totalDraws }}</p>
-    </div>
-    <div class="stat-card">
-      <h4>Total Users</h4>
-      <p>{{ stats.totalUsers }}</p>
-    </div>
-    <div class="stat-card">
-      <h4>Total Participations</h4>
-      <p>{{ stats.totalParticipations }}</p>
-    </div>
-    <div class="stat-card">
-      <h4>Total Winners</h4>
-      <p>{{ stats.totalWinners }}</p>
-    </div>
+    <p-card class="stat-card total-draws">
+      <div class="card-content">
+        <i class="pi pi-gift stat-icon" style="color:#42A5F5"></i>
+        <div>
+          <h4>Total Draws</h4>
+          <p>{{ stats.totalDraws }}</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card class="stat-card total-users">
+      <div class="card-content">
+        <i class="pi pi-users stat-icon" style="color:#66BB6A"></i>
+        <div>
+          <h4>Total Users</h4>
+          <p>{{ stats.totalUsers }}</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card class="stat-card total-participations">
+      <div class="card-content">
+        <i class="pi pi-id-card stat-icon" style="color:#FFA726"></i>
+        <div>
+          <h4>Total Participations</h4>
+          <p>{{ stats.totalParticipations }}</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card class="stat-card total-winners">
+      <div class="card-content">
+        <i class="pi pi-trophy stat-icon" style="color:#AB47BC"></i>
+        <div>
+          <h4>Total Winners</h4>
+          <p>{{ stats.totalWinners }}</p>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-grid">
+    <p-card header="Participants per Draw" class="chart-card">
+      <p-chart type="bar" [data]="participationChartData"></p-chart>
+    </p-card>
+
+    <p-card header="Draw Status Distribution" class="chart-card">
+      <p-chart type="doughnut" [data]="drawsChartData"></p-chart>
+    </p-card>
   </div>
 </div>

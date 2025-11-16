@@ -34,7 +34,7 @@ interface Draw {
     TooltipModule,
     CardModule,
     CreateDrawComponent,
-    HttpClientModule  
+    HttpClientModule
   ],
   templateUrl: './view-draws.component.html',
   styleUrls: ['./view-draws.component.scss']
@@ -45,26 +45,26 @@ export class ViewDrawsComponent implements OnInit {
   showDrawModal: boolean = false;
   selectedDrawId: number | null = null;
 
-  constructor(private router: Router , private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
     this.loadDraws();
   }
 
- loadDraws() {
-  this.loading = true;
-  
-  this.http.get<{ data: Draw[] }>('http://localhost:3333/draws').subscribe({
-    next: (res) => {
-      this.draws = res.data; // assuming your backend returns { data: [...] }
-      this.loading = false;
-    },
-    error: (err) => {
-      console.error('Failed to load draws', err);
-      this.loading = false;
-    }
-  });
-}
+  loadDraws() {
+    this.loading = true;
+
+    this.http.get<{ data: Draw[] }>('http://localhost:3333/draws').subscribe({
+      next: (res) => {
+        this.draws = res.data; // assuming your backend returns { data: [...] }
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load draws', err);
+        this.loading = false;
+      }
+    });
+  }
 
 
   openCreateDrawModal() {
@@ -72,18 +72,33 @@ export class ViewDrawsComponent implements OnInit {
     this.showDrawModal = true;
   }
 
-  openEditDrawModal(drawId: number) {
-    this.selectedDrawId = drawId;
+  openEditDrawModal(id: number) {
+    this.selectedDrawId = id;
     this.showDrawModal = true;
   }
 
   viewParticipants(draw: Draw) {
     this.router.navigate(['/admin/participants', draw.id]);
+
+  }
+  runDraw(draw: Draw) {
+    this.http.post(`http://localhost:3333/draws/${draw.id}/pick-winner`, {})
+      .subscribe({
+        next: (res: any) => {
+          const winners = res.data;
+          const winnerNames = winners
+            .map((w: any) => w.user?.fullName || 'Unknown')
+            .join(', ');
+
+          alert(`🎉 Winner(s) selected for ${draw.prizeName}: ${winnerNames}`);
+        },
+        error: (err) => {
+          console.error('Error picking winner:', err);
+          alert('Failed to pick winner.');
+        }
+      });
   }
 
-  runDraw(draw: Draw) {
-    alert(`🎉 Winner selected for: ${draw.prizeName}`);
-  }
 
   onDrawCreated() {
     this.loadDraws(); // Refresh the table

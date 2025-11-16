@@ -58,10 +58,15 @@ export class NavbarComponent implements OnInit {
         icon: 'pi pi-list',
         routerLink: ['/admin/draws']
       });
-      this.menuItems.push({
-        label: 'Create Draw',
-        icon: 'pi pi-plus',
-        routerLink: ['/admin/draws/create']
+      // this.menuItems.push({
+      //   label: 'Create Draw',
+      //   icon: 'pi pi-plus',
+      //   routerLink: ['/admin/draws/create']
+      // });
+        this.menuItems.push({
+        label: 'Users',
+        icon: 'pi pi-users',
+        routerLink: ['/admin/users']
       });
     }
 

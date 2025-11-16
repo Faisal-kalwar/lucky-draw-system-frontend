@@ -1,52 +1,108 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+<div class="register-container">
+  <div class="form-wrapper">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      
+      <div class="form-field">
+        <label for="name" class="form-label">Name</label>
+        <input 
+          id="name" 
+          type="text" 
+          pInputText 
+          formControlName="name"
+          placeholder="Enter your full name"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('name')" />
+        <small class="error-message" *ngIf="isFieldInvalid('name')">
+          {{ getFieldError('name') }}
+        </small>
+      </div>
 
-  <div class="form-group">
-    <label for="name">Name:</label>
-    <input id="name" type="text" formControlName="name" />
+      <div class="form-field">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          id="email" 
+          type="email" 
+          pInputText 
+          formControlName="email"
+          placeholder="admin@admin.com"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('email')" />
+        <small class="error-message" *ngIf="isFieldInvalid('email')">
+          {{ getFieldError('email') }}
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input 
+          id="phone" 
+          type="tel" 
+          pInputText 
+          formControlName="phone"
+          placeholder="Enter phone number"
+          class="form-input"
+          [class.invalid]="isFieldInvalid('phone')" />
+        <small class="error-message" *ngIf="isFieldInvalid('phone')">
+          {{ getFieldError('phone') }}
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="password" class="form-label">Password</label>
+        <p-password 
+          id="password" 
+          formControlName="password"
+          [feedback]="true"
+          placeholder="Enter password"
+          styleClass="full-width"
+          [inputStyle]="{'width': '100%'}"
+          [class.invalid]="isFieldInvalid('password')">
+        </p-password>
+        <small class="error-message" *ngIf="isFieldInvalid('password')">
+          {{ getFieldError('password') }}
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <p-password 
+          id="confirmPassword" 
+          formControlName="confirmPassword"
+          [feedback]="false"
+          placeholder="Re-enter password"
+          styleClass="full-width"
+          [inputStyle]="{'width': '100%'}"
+          [class.invalid]="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched">
+        </p-password>
+        <small class="error-message" *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched">
+          Passwords do not match
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <p-button 
+          type="submit" 
+          [label]="isLoading ? 'Processing...' : 'Register'" 
+          [loading]="isLoading"
+          [disabled]="isLoading"
+          styleClass="submit-button">
+        </p-button>
+      </div>
+
+      <p-message 
+        *ngIf="errorMessage" 
+        severity="error" 
+        [text]="errorMessage"
+        styleClass="message-box">
+      </p-message>
+
+      <p-message 
+        *ngIf="successMessage" 
+        severity="success" 
+        [text]="successMessage"
+        styleClass="message-box">
+      </p-message>
+
+    </form>
   </div>
-
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input id="email" type="email" formControlName="email" />
-  </div>
-
-  <div class="form-group">
-    <label for="phone">Phone Number:</label>
-    <input id="phone" type="text" formControlName="phone" />
-  </div>
-
-  <div class="form-group">
-    <label for="payment_option">Payment Method:</label>
-    <select id="payment_option" formControlName="payment_option">
-      <option value="" disabled>Select Payment Method</option>
-      <option value="bank">Bank Transfer</option>
-      <option value="easypaisa">Easypaisa</option>
-      <option value="jazzcash">JazzCash</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="amount">Amount to Play:</label>
-    <input id="amount" type="number" formControlName="amount" />
-  </div>
-
-  <!-- MISSING FIELDS (now added) -->
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <input id="password" type="password" formControlName="password" />
-  </div>
-
-  <div class="form-group">
-    <label for="confirmPassword">Confirm Password:</label>
-    <input id="confirmPassword" type="password" formControlName="confirmPassword" />
-  </div>
-
-  <button type="submit" [disabled]="isLoading">
-    {{ isLoading ? 'Processing...' : 'Register and Pay' }}
-  </button>
-
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
-
-</form>
+</div>

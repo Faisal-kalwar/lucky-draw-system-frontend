@@ -78,7 +78,7 @@ export class CreateDrawComponent implements OnInit {
 
   loadDraw() {
     this.loading = true;
-    this.http.get(`http://localhost:3333/draws/${this.drawId}`).subscribe({
+    this.http.get(`http://localhost:3333/api/draws/${this.drawId}`).subscribe({
       next: (res: any) => {
         const draw = res.data;
         this.drawForm.patchValue({

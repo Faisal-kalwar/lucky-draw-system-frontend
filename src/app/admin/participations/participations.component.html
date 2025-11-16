@@ -1,0 +1,160 @@
+<div class="participations-container">
+    <p-toast></p-toast>
+
+    <div class="header-section">
+        <button pButton label="Back to Draws" icon="pi pi-arrow-left" class="p-button-text p-button-plain back-button"
+            (click)="goBack()">
+        </button>
+
+        <div class="draw-info-card" *ngIf="draw">
+            <div class="draw-header">
+                <h1 class="page-title">
+                    <i class="pi pi-users"></i>
+                    Participants
+                </h1>
+                <p-tag [value]="draw.status" [severity]="getStatusSeverity(draw.status)"></p-tag>
+            </div>
+
+            <h2 class="prize-name">{{ draw.prizeName }}</h2>
+
+            <div class="draw-meta">
+                <span class="meta-item">
+                    <i class="pi pi-calendar"></i>
+                    Draw Date: {{ formatDate(draw.drawDate) }}
+                </span>
+                <span class="meta-item">
+                    <i class="pi pi-users"></i>
+                    {{ participants.length }} / {{ draw.maxParticipants }} Participants
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <p-card class="participants-card">
+        <div class="table-header">
+            <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-search" />
+                <input type="text" pInputText placeholder="Search participants..." class="search-input" #searchInput
+                    (input)="dt.filterGlobal(searchInput.value, 'contains')" />
+            </p-iconField>
+            <button pButton label="Add Participant" icon="pi pi-plus" class="p-button-success" (click)="openAddModal()">
+            </button>
+        </div>
+
+        <p-table #dt [value]="participants" [loading]="loading" [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} participants"
+            [globalFilterFields]="['user.fullName', 'user.email', 'referenceNumber', 'phoneNumber']"
+            styleClass="p-datatable-gridlines p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">#</th>
+                    <th pSortableColumn="user.fullName">
+                        Participant
+                        <p-sortIcon field="user.fullName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="phoneNumber">
+                        Contact
+                        <p-sortIcon field="phoneNumber"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="bankName">
+                        Bank Details
+                        <p-sortIcon field="bankName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="referenceNumber">
+                        Reference
+                        <p-sortIcon field="referenceNumber"></p-sortIcon>
+                    </th>
+                    <th>Status</th>
+                    <th pSortableColumn="createdAt">
+                        Joined
+                        <p-sortIcon field="createdAt"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-participant let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{ rowIndex + 1 }}</td>
+                    <td>
+                        <div class="avatar">{{ getInitials(participant?.user?.fullName || '') }}</div>
+
+                        <div class="participant-details">
+                            <div class="name">{{ participant?.user?.fullName || 'N/A' }}</div>
+                            <div class="email">{{ participant?.user?.email || 'N/A' }}</div>
+                        </div>
+
+                    </td>
+                    <td>
+                        <div class="contact-cell">
+                            <i class="pi pi-phone"></i>
+                            <span>{{ participant?.phoneNumber || 'N/A' }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="bank-details">
+                            <div class="bank-name">{{ participant?.bankName || 'N/A' }}</div>
+                            <div class="account-number">{{ participant?.accountNumber || 'N/A' }}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="reference-badge">{{ participant?.referenceNumber }}</span>
+                    </td>
+                    <td>
+                        <p-tag *ngIf="participant?.isWinner" value="Winner" severity="warning" icon="pi pi-trophy">
+                        </p-tag>
+                        <p-tag *ngIf="!participant?.isWinner" value="Participant" severity="info">
+                        </p-tag>
+                    </td>
+                    <td>
+                        <div class="date-cell">
+                            <i class="pi pi-clock"></i>
+                            {{ formatDate(participant?.createdAt) }}
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" class="empty-message">
+                        <div class="empty-state">
+                            <i class="pi pi-inbox"></i>
+                            <p>No participants found</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="7">
+                        <div class="loading-container">
+                            <i class="pi pi-spin pi-spinner"></i>
+                            <span>Loading participants...</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>
+
+<!-- Add Participant Modal -->
+<p-dialog header="Add Participant by Email" [(visible)]="showAddModal" [modal]="true" [style]="{width: '450px'}"
+    [draggable]="false" [resizable]="false">
+    <div class="modal-content">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" pInputText id="email" [(ngModel)]="newEmail" placeholder="Enter participant's email"
+            class="w-full" />
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="showAddModal = false">
+        </button>
+        <button pButton label="Add Participant" icon="pi pi-check" [loading]="addingParticipant"
+            [disabled]="!newEmail.trim()" (click)="addParticipantByEmail()">
+        </button>
+    </ng-template>
+</p-dialog>
