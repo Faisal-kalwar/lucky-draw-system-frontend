@@ -1,0 +1,89 @@
+.form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1rem 0;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-field.password-toggle {
+      margin-top: -0.5rem;
+    }
+
+    .form-field.password-toggle label {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-bottom: 0;
+    }
+
+    label {
+      font-weight: 600;
+      color: #495057;
+      font-size: 0.875rem;
+    }
+
+    label.required::after {
+      content: ' *';
+      color: #e24c4c;
+    }
+
+    .text-muted {
+      color: #6c757d;
+      font-size: 0.75rem;
+      font-style: italic;
+    }
+
+    .dialog-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #dee2e6;
+    }
+
+    :host ::ng-deep {
+      .w-full {
+        width: 100%;
+      }
+
+      .p-password {
+        width: 100%;
+      }
+
+      .p-password input {
+        width: 100%;
+      }
+
+      .ng-invalid.ng-touched {
+        border-color: #e24c4c;
+      }
+
+      .p-error {
+        color: #e24c4c;
+        font-size: 0.75rem;
+      }
+
+      .p-dropdown {
+        width: 100%;
+      }
+
+      .p-dialog .p-dialog-header {
+        background: #f8f9fa;
+        padding: 1.25rem;
+      }
+
+      .p-dialog .p-dialog-content {
+        padding: 1.5rem;
+      }
+
+        .p-button-outlined.w-full {
+          width: 100%;
+          justify-content: center;
+        }
+      }

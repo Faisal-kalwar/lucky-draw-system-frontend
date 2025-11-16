@@ -1,0 +1,91 @@
+<div class="card">
+  <h2>User Management</h2>
+
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <p-table #dt [value]="users" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['fullName', 'email', 'role', 'status']" responsiveLayout="scroll"
+    styleClass="p-datatable-striped">
+
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <div class="flex gap-2">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search users..." />
+          </span>
+        </div>
+        <div class="flex gap-2">
+          <button pButton label="Refresh" icon="pi pi-refresh" class="p-button-outlined" (click)="loadUsers()"></button>
+          <button pButton label="Create User" icon="pi pi-plus" class="p-button-success"
+            (click)="openCreateModal()"></button>
+          <button pButton label="Export CSV" icon="pi pi-upload" class="p-button-help" (click)="exportCSV()"></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="fullName">Full Name <p-sortIcon field="fullName"></p-sortIcon></th>
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th>Payment Option</th>
+        <th pSortableColumn="createdAt">Joined Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-user"></i>
+            <span class="font-semibold">{{ user.fullName }}</span>
+          </div>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>
+          <p-tag [value]="user.role" [severity]="getRoleSeverity(user.role)">
+          </p-tag>
+        </td>
+        <td>
+          <p-tag [value]="user.status" [severity]="getStatusSeverity(user.status)">
+          </p-tag>
+        </td>
+        <td>{{ user.payment_option || 'N/A' }}</td>
+        <td>{{ user.createdAt | date: 'short' }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button *ngIf="user.status === 'pending'" pButton icon="pi pi-check"
+              class="p-button-rounded p-button-success p-button-sm" pTooltip="Approve User"
+              (click)="approveUser(user)"></button>
+
+            <button *ngIf="user.status === 'pending'" pButton icon="pi pi-times"
+              class="p-button-rounded p-button-danger p-button-sm" pTooltip="Reject User"
+              (click)="rejectUser(user)"></button>
+
+            <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-info p-button-sm" pTooltip="Edit User"
+              (click)="editUser(user)"></button>
+
+            <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+              pTooltip="Delete User" (click)="deleteUser(user)"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8" class="text-center">No users found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<app-create-edit-user-modal [(visible)]="modalVisible" [user]="selectedUser" (userSaved)="onUserSaved($event)">
+</app-create-edit-user-modal>
