@@ -216,7 +216,7 @@ export class UsersListComponent implements OnInit {
       });
     } else {
       // Create user logic
-      this.http.post(`${this.apiUrl}/users`, userData).subscribe({
+      this.http.post(`${this.apiUrl}/register`, userData).subscribe({
         next: () => {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User created successfully' });
           this.loadUsers();

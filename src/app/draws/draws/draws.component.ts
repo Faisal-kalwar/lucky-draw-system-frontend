@@ -106,7 +106,7 @@ export class DrawsComponent implements OnInit {
     this.loading = true;
 
     this.http.get<{ success: boolean; data: Draw[] }>(
-      `${this.apiUrl}/draws?userId=${this.currentUserId}`
+      `${this.apiUrl}/users/mydraws/${this.currentUserId}`
     )
       .subscribe({
         next: (res) => {
