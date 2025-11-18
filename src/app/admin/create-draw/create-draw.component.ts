@@ -113,7 +113,7 @@ export class CreateDrawComponent implements OnInit {
     const payload = this.drawForm.value;
 
     if (this.isEditMode) {
-      this.http.put(`http://localhost:3333/draws/${this.drawId}`, payload).subscribe({
+      this.http.put(`http://localhost:3333/api/draws/${this.drawId}`, payload).subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',

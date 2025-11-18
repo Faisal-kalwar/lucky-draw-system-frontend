@@ -21,45 +21,54 @@ export class AuthService {
   }
 
   // 👉 Login
-// login(data: { email: string; password: string }): Observable<any> {
-//   return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
-//     tap((res) => {
-//       const token = typeof res.token === 'string'
-//         ? res.token
-//         : res.token?.token; // if backend returns token obj
+  // login(data: { email: string; password: string }): Observable<any> {
+  //   return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
+  //     tap((res) => {
+  //       const token = typeof res.token === 'string'
+  //         ? res.token
+  //         : res.token?.token; // if backend returns token obj
 
-//       if (!token) {
-//         throw new Error('Invalid token format');
-//       }
+  //       if (!token) {
+  //         throw new Error('Invalid token format');
+  //       }
 
-//       this.setSession(res.user, token);
-//     })
-//   );
-// }
-// 👉 Login - SIMPLIFIED VERSION
-login(data: { email: string; password: string }): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
-    tap((res) => {
-      console.log('📦 Full login response:', res);
-      console.log('🔑 Token value:', res.token);
-      console.log('🔑 Token type:', typeof res.token);
-      
-      // Backend returns { user, token: "oat_xxx..." }
-      const token = res.token;
-      
-      if (!token || typeof token !== 'string') {
-        console.error('❌ Invalid token format:', token);
-        throw new Error('Invalid token format received from server');
-      }
+  //       this.setSession(res.user, token);
+  //     })
+  //   );
+  // }
+  // 👉 Login - SIMPLIFIED VERSION
+  login(data: { email: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
+      tap((res) => {
+        console.log('📦 Full login response:', res);
+        console.log('🔑 Token value:', res.token);
+        console.log('🔑 Token type:', typeof res.token);
 
-      // Store token and user
-      this.setSession(res.user, token);
-      
-      // Verify storage immediately
-      console.log('✅ Token stored:', localStorage.getItem('token'));
-    })
-  );
-}
+        // Backend returns { user, token: "oat_xxx..." }
+        const token = res.token;
+
+        if (!token || typeof token !== 'string') {
+          console.error('❌ Invalid token format:', token);
+          throw new Error('Invalid token format received from server');
+        }
+
+        // Store token and user
+        this.setSession(res.user, token);
+
+        // Verify storage immediately
+        console.log('✅ Token stored:', localStorage.getItem('token'));
+      })
+    );
+  }
+
+  requestResetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/request-reset-password`, { email });
+  }
+
+  // Also add the reset password method for when the user uses the token
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { token, password });
+  }
 
 
 

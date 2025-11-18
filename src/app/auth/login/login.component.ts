@@ -26,16 +26,35 @@ export class LoginComponent {
   fb = inject(FormBuilder);
   router = inject(Router);
   authService = inject(AuthService);
+  
   isLoading = false;
+  loading = false;
+  showForgotPassword = false;
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 
-  errorMessage = '';
+  forgotForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]]
+  });
 
+  errorMessage = '';
+  message = '';
+  error = '';
+
+  // Main submit handler - routes to correct form
   onSubmit() {
+    if (this.showForgotPassword) {
+      this.onForgotPasswordSubmit();
+    } else {
+      this.onLoginSubmit();
+    }
+  }
+
+  // Handle login form submission
+  onLoginSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -59,5 +78,43 @@ export class LoginComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  // Handle forgot password form submission
+  onForgotPasswordSubmit() {
+    if (this.forgotForm.invalid) {
+      this.forgotForm.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
+    this.message = '';
+    this.error = '';
+
+    const { email } = this.forgotForm.value as { email: string };
+
+    this.authService.requestResetPassword(email).subscribe({
+      next: (res) => {
+        this.message = res.message || 'Reset link sent to your email';
+        this.forgotForm.reset();
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Failed to send reset link';
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  // Toggle between login and forgot password forms
+  toggleForgotPassword() {
+    this.showForgotPassword = !this.showForgotPassword;
+    this.errorMessage = '';
+    this.message = '';
+    this.error = '';
+    this.loginForm.reset();
+    this.forgotForm.reset();
   }
 }
